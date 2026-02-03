@@ -4,7 +4,7 @@ import {
   getAllProducts,
   getCategories,
   getProductsByCategory,
-} from "../api/fakestore";
+} from "../api/firestoreProducts";
 import ProductCard from "../components/ProductCard";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
@@ -12,13 +12,9 @@ import { addToCart } from "../features/cart/cartSlice";
 export default function Home() {
   const dispatch = useDispatch();
 
-  // Category filter
   const [category, setCategory] = useState("all");
 
-  // Sort option
-  const [sortBy, setSortBy] = useState("none"); // none | price-asc | price-desc | rating-desc
-
-  // Toast state
+  const [sortBy, setSortBy] = useState("none"); 
   const [toast, setToast] = useState(null);
   const toastTimerRef = useRef(null);
 
@@ -48,7 +44,6 @@ export default function Home() {
     [productsQuery.data],
   );
 
-  // Sorted products (IMPORTANT: copy array to avoid mutating React Query cache)
   const products = useMemo(() => {
     const list = [...rawProducts];
 
@@ -73,7 +68,6 @@ export default function Home() {
 
   function handleAdd(product) {
     dispatch(addToCart(product));
-    // ✅ toast shows product title
     showToast(`✅ Added: ${product.title}`);
   }
 
@@ -83,13 +77,11 @@ export default function Home() {
         <div>
           <h1 className="h1">Product Catalog</h1>
           <p className="sub">
-            Powered by FakeStoreAPI • React Query for fetching • Redux Toolkit
-            cart
+            Powered by Firestore • React Query for fetching • Redux Toolkit cart
           </p>
         </div>
 
         <div className="controls-row">
-          {/* Category dropdown */}
           <div className="control">
             <span className="badge">Category</span>
             <select
@@ -106,7 +98,6 @@ export default function Home() {
             </select>
           </div>
 
-          {/* Sort dropdown */}
           <div className="control">
             <span className="badge">Sort</span>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
@@ -117,7 +108,6 @@ export default function Home() {
             </select>
           </div>
 
-          {/* ✅ Clear sort button */}
           {sortBy !== "none" && (
             <button
               className="btn"
@@ -155,7 +145,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Floating toast */}
       {toast && <div className="toast-floating">{toast}</div>}
     </div>
   );

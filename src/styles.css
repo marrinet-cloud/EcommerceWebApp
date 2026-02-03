@@ -32,7 +32,6 @@ a { color: inherit; text-decoration: none; }
   padding: 22px 0 40px;
 }
 
-/* Top nav */
 .nav {
   position: sticky;
   top: 0;
@@ -95,7 +94,6 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
 }
 
-/* Page header + controls */
 .header {
   display: flex;
   align-items: end;
@@ -134,7 +132,6 @@ select {
   font-size: 14px;
 }
 
-/* Product grid + cards */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -220,7 +217,15 @@ select {
   background: linear-gradient(135deg, rgba(124, 92, 255, 0.8), rgba(40, 215, 168, 0.5));
 }
 
-/* Cart */
+.btn-danger {
+  background: rgba(255, 77, 109, 0.15);
+  border-color: rgba(255, 77, 109, 0.35);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 77, 109, 0.22);
+}
+
 .panel {
   border: 1px solid var(--border);
   background: var(--panel);
@@ -228,6 +233,25 @@ select {
   box-shadow: var(--shadow);
   padding: 14px;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.18);
+  color: var(--text);
+  outline: none;
+}
+
+textarea { resize: vertical; }
 
 .row {
   display: grid;
@@ -292,12 +316,11 @@ select {
   border-radius: 16px;
 }
 
-/* Small screens */
 @media (max-width: 720px) {
   .header { flex-direction: column; align-items: start; }
   .row { grid-template-columns: 60px 1fr; gap: 10px; }
 }
-/* Toast */
+
 .toast-floating {
   position: fixed;
   right: 18px;
@@ -322,7 +345,6 @@ select {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Optional: make controls wrap nicely */
 .controls-row {
   display: flex;
   gap: 10px;

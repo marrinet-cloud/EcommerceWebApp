@@ -1,5 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../firebase/AuthContext";
+import { createOrder } from "../api/firestoreOrders";
 import {
   addToCart,
   clearCart,
@@ -12,8 +15,11 @@ const PLACEHOLDER = "https://via.placeholder.com/200?text=No+Image";
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const nav = useNavigate();
+  const { user } = useAuth();
   const items = useSelector((s) => s.cart.items);
   const [checkedOut, setCheckedOut] = useState(false);
+  const [error, setError] = useState(null);
 
   const totals = useMemo(() => {
     const totalProducts = items.reduce((sum, p) => sum + p.count, 0);
@@ -24,10 +30,35 @@ export default function Cart() {
     return { totalProducts, totalPrice };
   }, [items]);
 
-  const checkout = () => {
-    dispatch(clearCart());
-    setCheckedOut(true);
-    setTimeout(() => setCheckedOut(false), 2500);
+  const checkout = async () => {
+    setError(null);
+    if (!user) {
+      setError("Please sign in to place an order.");
+      nav("/login");
+      return;
+    }
+
+    const orderItems = items.map((p) => ({
+      id: p.id,
+      title: p.title,
+      price: Number(p.price || 0),
+      image: p.image || "",
+      count: Number(p.count || 1),
+    }));
+
+    try {
+      await createOrder({
+        uid: user.uid,
+        email: user.email,
+        items: orderItems,
+        totalPrice: totals.totalPrice,
+      });
+      dispatch(clearCart());
+      setCheckedOut(true);
+      setTimeout(() => setCheckedOut(false), 2500);
+    } catch (e) {
+      setError(String(e?.message || e));
+    }
   };
 
   return (
@@ -53,6 +84,8 @@ export default function Cart() {
           ✅ Checkout complete! Your cart has been cleared.
         </div>
       )}
+
+      {error && <div className="toast">⚠️ {error}</div>}
 
       {items.length === 0 ? (
         <div className="panel">Your cart is empty.</div>
