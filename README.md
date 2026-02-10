@@ -1,8 +1,19 @@
-# Advanced E-commerce (Firebase Edition)
+# Advanced E-commerce 
 
-**Live Demo:** _ADD_YOUR_VERCEL_URL_HERE_
+## CI/CD
+- GitHub Actions runs tests + build on every push to `main`.
+- If tests pass, the app is deployed to Vercel automatically.
 
-This project replaces the previous FakeStore API with **Firebase Authentication** + **Cloud Firestore**.
+## Testing
+- Unit tests: `QuantitySelector`, `ProductCard`
+- Integration test: Cart updates when adding a product
+
+## Scripts
+- `npm test`
+- `npm run build`
+- `npm run dev` (if applicable)
+
+This project replaces the previous FakeStore API
 
 ## 1) Firebase setup
 
