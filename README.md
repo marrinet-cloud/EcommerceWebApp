@@ -1,5 +1,7 @@
 # Advanced E-commerce (Firebase Edition)
 
+**Live Demo:** _ADD_YOUR_VERCEL_URL_HERE_
+
 This project replaces the previous FakeStore API with **Firebase Authentication** + **Cloud Firestore**.
 
 ## 1) Firebase setup
@@ -96,3 +98,48 @@ For development you can start in test mode. When you lock it down, a common base
 
 Implementing admin roles is app-specific (e.g., `users/{uid}.role == 'admin'`).
 >>>>>>> cbcb1bb (final)
+---
+
+## CI/CD (GitHub Actions → Vercel)
+
+This repo includes a GitHub Actions workflow at `.github/workflows/main.yml` that:
+
+1. Runs **CI** on every push to `main`:
+   - `npm ci`
+   - `npm test -- --ci`
+   - `npm run build`
+2. Runs **CD** only if CI passes:
+   - Deploys to **Vercel (Production)** using the Vercel CLI.
+
+### Required GitHub Secrets (Repository → Settings → Secrets and variables → Actions)
+
+- `VERCEL_TOKEN` — Vercel Personal Token
+- (Recommended) Set these in Vercel project settings as well:
+  - `VITE_FIREBASE_API_KEY`
+  - `VITE_FIREBASE_AUTH_DOMAIN`
+  - `VITE_FIREBASE_PROJECT_ID`
+  - `VITE_FIREBASE_STORAGE_BUCKET`
+  - `VITE_FIREBASE_MESSAGING_SENDER_ID`
+  - `VITE_FIREBASE_APP_ID`
+
+> Note: Vercel **Environment Variables** are the right place for `VITE_*` keys (they become available at build time).
+
+---
+
+## Testing (TDD)
+
+Run tests locally:
+
+```bash
+npm test
+```
+
+### What’s covered
+
+- **Unit tests**
+  - `ProductCard` rendering + interaction
+  - `ProtectedRoute` behavior (loading, redirect, authenticated)
+- **Integration test**
+  - “Add to cart” updates the cart count (Redux store + UI)
+
+Tests live in `src/__tests__/`.
