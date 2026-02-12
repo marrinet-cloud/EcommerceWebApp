@@ -38,7 +38,6 @@ test("ProductCard swaps to placeholder image if product image fails to load", ()
   const img = screen.getByRole("img", { name: /test product/i });
   fireEvent.error(img);
 
-  // Placeholder is hardcoded in the component
   expect(img).toHaveAttribute(
     "src",
     "https://via.placeholder.com/400x300?text=No+Image"

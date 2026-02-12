@@ -24,7 +24,6 @@ function TestShop({ product }) {
 test("integration: cart count updates when adding a product", async () => {
   const user = userEvent.setup();
 
-  // Ensure deterministic starting state for the test.
   store.dispatch(clearCart());
 
   const product = {
@@ -48,7 +47,6 @@ test("integration: cart count updates when adding a product", async () => {
   await user.click(screen.getByRole("button", { name: /add to cart/i }));
   expect(screen.getByLabelText("cart-count")).toHaveTextContent("1");
 
-  // Adding again increments count (same product id)
   await user.click(screen.getByRole("button", { name: /add to cart/i }));
   expect(screen.getByLabelText("cart-count")).toHaveTextContent("2");
 });
