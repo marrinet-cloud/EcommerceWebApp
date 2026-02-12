@@ -1,4 +1,4 @@
-# Advanced E-commerce 
+# Advanced E-commerce deployment
 
 ## CI/CD
 - GitHub Actions runs tests + build on every push to `main`.
